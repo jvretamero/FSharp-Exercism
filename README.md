@@ -1,2 +1,3 @@
-# FSharp-Exercism
-Exercises from Exercism to learn F#
+# F# Exercism
+
+Exercises from [Exercism](https://exercism.io/my/tracks/fsharp) to learn [F#](https://fsharp.org/).
