@@ -1,26 +1,6 @@
 ﻿module Grains
 open System
 
-// let square (n: int): Result<uint64,string> =
-//     if n >= 1 && n <= 64 then
-//         let rec result arr prev =
-//             match arr with
-//             | [ num ] -> num
-//             | head :: tail -> head * 2
-//             | [] -> 0
-//         Ok (uint64 (result [1..n] 0))
-//     else
-//         Error "square must be between 1 and 64"
-
-(*
-    1 1
-    2 2
-    3 4
-    4 8
-    5 16
-    6 32
-*)
-
 let square (n: int): Result<uint64,string> =
     if n = 1 then
         Ok 1UL
