@@ -3,7 +3,7 @@
 open System
 
 let largestProduct (input: string) seriesLength : int option =
-    if Seq.exists (Char.IsDigit >> not) input then
+    if Seq.exists Char.IsLetter input then
         None
     else
         match input.Length with
