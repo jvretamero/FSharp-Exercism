@@ -9,10 +9,9 @@ let clean (input: string) =
         |> String.Concat
 
     let tenDigits =
-        if filtered.Length > 10 then
-            filtered.Substring 1
-        else
-            filtered
+        if filtered.Length > 10
+        then filtered.Substring 1
+        else filtered
 
     let hasAlpha = input |> Seq.exists Char.IsLetter
     let hasPunctuation =
@@ -27,26 +26,21 @@ let clean (input: string) =
         | '1' -> Error (codeType + " code cannot start with one")
         | _ -> success
 
-    let validateAreaCode () = validateDigits 0 "area"
-    let validateExchange () = validateDigits 3 "exchange"
-
     let validate () =
-        match validateAreaCode () with
-        | Ok _ -> validateExchange ()
+        match validateDigits 0 "area" with
+        | Ok _ -> validateDigits 3 "exchange"
         | Error message -> Error message
 
-    if hasAlpha then
-        Error "alphanumerics not permitted"
-    else if hasPunctuation then
-        Error "punctuations not permitted"
-    else if filtered.Length = 10 then
-        validate ()
-    else if filtered.Length = 11 then
-        if filtered.[0] = '1' then
-            validate ()
-        else
-            Error "11 digits must start with 1"
-    else if filtered.Length > 11 then
-        Error "more than 11 digits"
-    else
-        Error "incorrect number of digits"
+    let validateLength () =
+        match filtered.Length with
+        | 10 -> validate()
+        | 11 ->
+            match filtered.[0] with
+            | '1' -> validate()
+            | _ -> Error "11 digits must start with 1"
+        | len when len > 11 -> Error "more than 11 digits"
+        | _ -> Error "incorrect number of digits"
+
+    if hasAlpha then Error "alphanumerics not permitted"
+    else if hasPunctuation then Error "punctuations not permitted"
+    else validateLength ()
