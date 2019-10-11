@@ -1,19 +1,51 @@
 ﻿module RationalNumbers
 
-let create numerator denominator = failwith "You need to implement this function."
+type RationalNumber = {
+    Numerator: int;
+    Denominator: int;
+}
 
-let add r1 r2 = failwith "You need to implement this function."
+let rec gcd r =
+    if r.Denominator = 0
+    then r.Numerator
+    else gcd { Numerator = r.Denominator; Denominator = r.Numerator % r.Denominator; }
 
-let sub r1 r2 = failwith "You need to implement this function."
+let reduce r =
+    let d = gcd r
+    { Numerator = r.Numerator / d; Denominator = r.Denominator / d; }
 
-let mul r1 r2 = failwith "You need to implement this function."
+let create numerator denominator =
+    { Numerator = numerator; Denominator = denominator; }
+    |> reduce
 
-let div r1 r2 = failwith "You need to implement this function."
+let add r1 r2 =
+    create
+        (r1.Numerator * r2.Denominator + r2.Numerator * r1.Denominator)
+        (r1.Denominator  * r2.Denominator)
 
-let abs r = failwith "You need to implement this function."
+let sub r1 r2 =
+    create
+        (r1.Numerator * r2.Denominator - r2.Numerator * r1.Denominator)
+        (r1.Denominator  * r2.Denominator)
 
-let exprational n r = failwith "You need to implement this function."
+let mul r1 r2 =
+    create
+        (r1.Numerator * r2.Numerator)
+        (r1.Denominator  * r2.Denominator)
 
-let expreal r n = failwith "You need to implement this function."
+let div r1 r2 =
+    create
+        (r1.Numerator * r2.Denominator)
+        (r1.Denominator  * r2.Numerator)
 
-let reduce r = failwith "You need to implement this function."
+let abs r =
+    create (abs r.Numerator) (abs r.Denominator)
+
+let pow b e =
+    int ((double b) ** (double e))
+
+let exprational n r =
+    create (pow r.Numerator n) (pow r.Denominator n)
+
+let expreal r n =
+    (double (pow n r.Numerator)) ** (1.0 / (double r.Denominator))
